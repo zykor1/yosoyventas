@@ -1,3 +1,4 @@
+var mongoose = require('mongoose')
 
 /*
  * GET home page.
