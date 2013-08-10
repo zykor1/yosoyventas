@@ -34,7 +34,7 @@ everyauth.everymodule.findUserById(function(userId,callback) {
 everyauth.facebook
     .appId('490289871056517')
     .appSecret('fdab8b77b54df41dd4f955b24e101c93')
-    .scope('email,user_location,user_photos,publish_actions')
+    .scope('email,user_location,user_photos,publish_actions,user_about_me')
     .handleAuthCallbackError( function (req, res) {
         res.send('Error occured');
     })
@@ -75,7 +75,7 @@ everyauth.facebook
 
         return promise;
     })
-    .redirectPath('/');
+    .redirectPath('/users');
 
 
 

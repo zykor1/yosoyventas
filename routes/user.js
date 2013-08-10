@@ -7,7 +7,7 @@ var	UserModel = require('../models/user');
 exports.index = function(req, res){
 	UserModel.find(function(err,users){
         console.log(users);
-        res.render('mostrarUsuario', { user: JSON.stringify(users) });
+        res.render('mostrarUsuario', { user: users });
     });
   
 };

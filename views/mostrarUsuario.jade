@@ -3,14 +3,7 @@ block head
 	|<link href='http://fonts.googleapis.com/css?family=Jacques+Francois' rel='stylesheet' type='text/css'>
 	|<link href='http://fonts.googleapis.com/css?family=Petit+Formal+Script' rel='stylesheet' type='text/css'>
 block index
-	div.row#fondo
-		div.container
-			div#divInformativo
-				h2.textoInformativo.text-center 
-					b Yo soy ventas 
-					|te permitirá comprar, vender y cambiar articulos de manera fácil y segura. Todo en un solo lugar.
-	div.row#divi
-		h3.texto.text-center Conéctate con tu cuenta de Facebook y empieza ahora.
 	div.row#textura
 		div.container
-
+			img(src="https://graph.facebook.com/#{user[0].username}/picture?width=80&height=80")
+			h1 Hola #{user[0].name}
