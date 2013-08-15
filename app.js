@@ -82,16 +82,11 @@ everyauth.facebook
 
 
 
-
-
-
-
-
 var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/public/templates');
 app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -100,7 +95,7 @@ app.use(express.cookieParser('secret'));
 app.use(express.session({ secret: 'viewor' }));
 app.use(everyauth.middleware(app));
 app.use(express.methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/static')));
 app.use(everyauth.middleware(app));
 app.use(app.router);
 

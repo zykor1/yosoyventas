@@ -1,0 +1,47 @@
+#proximamente{
+	color: #33CC33;
+	font-size: 5em;
+	margin: -.4em 1em 2em;
+}
+
+
+
+#fondo{
+	background: url("/img/fondo2.jpg") 100% no-repeat;
+	background-position: center top;
+	height: 50em;
+}
+
+#logo{
+	margin: -3em 7em 0em;
+}
+
+
+#cuadro_1{
+	margin-top:-9em;
+	width: 20em;
+	height: 25em;
+	margin-left: 18em;
+	background-color: white;
+}
+
+#cuadro_2{
+	margin-top:-9em;
+	width: 20em;
+	height: 25em;
+	margin-left: 20em;
+	background-color: white;
+}
+
+#cuadro_3{
+	margin-top:-9em;
+	width: 20em;
+	height: 25em;
+	margin-left: 20em;
+	background-color: white;
+}
+
+#jumbo{
+	margin: 2em 0em 2em;
+}
+
