@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 var everyauth = require('everyauth');
 var graph = require('fbgraph');
 
-
+everyauth.debug = true
 
 /** Connect to database and load models **/
 mongoose.connect('mongodb://127.0.0.1/prueba');
@@ -26,10 +26,12 @@ var UserModel = mongoose.model('UserModel');
 /**
  * Social login integration using Facebook
  */
-everyauth.everymodule.findUserById(function(userId,callback) {
-    UserModel.findOne({facebook_id: userId},function(err, user) {
-        callback(user, err);
-    });
+everyauth.everymodule
+    .findUserById( function (userId,callback) {
+        UserModel.findOne({_id: userId},function(err, user) {
+            console.log(userId);
+            callback(user, err);
+        });
 });
 everyauth.facebook
     .appId('490289871056517')
@@ -98,7 +100,7 @@ app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public/static')));
 app.use(everyauth.middleware(app));
 app.use(app.router);
-
+everyauth.helpExpress(app);
 
 // development only
 if ('development' == app.get('env')) {

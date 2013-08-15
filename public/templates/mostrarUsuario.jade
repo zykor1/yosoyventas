@@ -3,7 +3,7 @@ block head
 	|<link href='http://fonts.googleapis.com/css?family=Jacques+Francois' rel='stylesheet' type='text/css'>
 	|<link href='http://fonts.googleapis.com/css?family=Petit+Formal+Script' rel='stylesheet' type='text/css'>
 block index
-	div.row#textura
-		div.container
-			img(src="https://graph.facebook.com/#{user[0].username}/picture?width=80&height=80")
-			h1 Hola #{user[0].name}
+	div.row
+		div.col-lg-1
+			h3 #{ everyauth.loggedIn }
+			pre #{ everyauth.facebook.user.name }

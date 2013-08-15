@@ -5,9 +5,7 @@ var	UserModel = require('../models/user');
  */
 
 exports.index = function(req, res){
-	UserModel.find(function(err,users){
-        console.log(users);
-        res.render('mostrarUsuario', { user: users });
-    });
+        console.log(req.user);  // FTW!
+        res.render('mostrarUsuario');
   
 };
