@@ -1,0 +1,21 @@
+extends layout
+block index
+	nav.navbar.navbar-default(role="navigation", ng-app="headApp")
+		div.col-lg-3
+			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
+			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
+		div#links
+			a(href="/vender") Vender 
+	div.row
+		div.container
+			h2 Principal
+
+
+
+
+		
+
+//	div.row(ng-app="headApp")
+		div.col-lg-12
+			p.btn.btn-primary(enter, leave) #{ everyauth.facebook.user.name }
+			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')

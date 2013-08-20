@@ -5,5 +5,8 @@ var mongoose = require('mongoose')
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Yo Soy Ventas' });
+	if (req.session.auth == undefined)
+		res.render('index', { title: 'Yo Soy Ventas' });
+	else
+		res.redirect('/users')
 };

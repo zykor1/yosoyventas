@@ -1,0 +1,29 @@
+extends ../layout
+
+block index
+	nav.navbar.navbar-default(role="navigation")
+		div.col-lg-3
+			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
+			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
+		div#links
+			a(href="/principal") inicio
+	div.row
+		div.container
+			if exito == undefined
+				h2 Vender
+			else
+				h2 #{ exito }
+			form(action="/vender", method="post", enctype="application/x-www-form-urlencoded")
+				div.form-group
+					label(for="titulo") Titulo
+					input.form-control(type="text", placeholder="Ingresa un titulo para tu venta", name="titulo" )
+					p.help-block Ejemplo: Vendo auto sentra 2008 plateado
+				div.form-group
+					label(for="descripcion") Descripcion
+					textarea.form-control(placeholder="Ingresa descripcion de tu venta", name="descripcion")
+					p.help-block Ejemplo: El auto esta en excelentes condiciones tiene aire acondicionado
+				div.form-group
+					label(for="precio") Precio
+					input.form-control(type="number", step="any", placeholder="Ingresa el precio", name="precio" )
+					p.help-block Ejemplo: 80.000
+				button.btn.btn-default(type="submit") Guardar
