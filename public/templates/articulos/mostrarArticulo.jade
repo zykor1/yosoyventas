@@ -1,0 +1,15 @@
+extends ../layout
+block index
+	nav.navbar.navbar-default(role="navigation")
+		div.col-lg-3
+			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
+			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
+		div#links
+			a(href="/principal") inicio
+
+				
+block append foot
+	script(src="/js/tinymce/tinymce.min.js")
+
+
+

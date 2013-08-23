@@ -96,7 +96,8 @@ app.set('views', __dirname + '/public/templates');
 app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser('viewor'));
+app.use(express.bodyParser({ keepExtensions: true}));
+app.use(express.limit('5mb'));
 app.use(express.cookieParser('secret'));
 app.use(express.session({ secret: 'viewor' }));
 app.use(everyauth.middleware(app));
@@ -116,8 +117,11 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/principal', principal.index);
+// Articulos a la venta
 app.get('/vender', articulos.index);
 app.post('/vender', articulos.agregar);
+app.post('/vender/subirImagen', articulos.subirImagen);
+app.get('/:id_articulo/:titulo', articulos.mostrarArticulo);
 
 
 

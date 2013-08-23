@@ -1,5 +1,4 @@
 extends ../layout
-
 block index
 	nav.navbar.navbar-default(role="navigation")
 		div.col-lg-3
@@ -9,21 +8,48 @@ block index
 			a(href="/principal") inicio
 	div.row
 		div.container
-			if exito == undefined
-				h2 Vender
-			else
-				h2 #{ exito }
-			form(action="/vender", method="post", enctype="application/x-www-form-urlencoded")
+			div.row
+				div.col-lg-3
+					div#alerta
+					if exito == undefined
+						h2 Producto a vender
+					else
+						h2 #{ exito }
+			form#uploadForm(action="/vender/subirImagen", method="post", enctype="multipart/form-data")
 				div.form-group
-					label(for="titulo") Titulo
-					input.form-control(type="text", placeholder="Ingresa un titulo para tu venta", name="titulo" )
+					div.row#imagenes
+						div.media
+					span.label.label-info#status
+					input#userPhotoInput.form-control(type="file", placeholder="Agregar imagen", name="imagen") Elige imagen
+			form#informacionForm(action="/vender", method="post", enctype="multipart/form-data")
+				div.form-group
+					label.label.label-info(for="titulo") Titulo
+					input.form-control(type="text", placeholder="Ingresa un titulo para tu venta", name="titulo", required )
 					p.help-block Ejemplo: Vendo auto sentra 2008 plateado
 				div.form-group
-					label(for="descripcion") Descripcion
-					textarea.form-control(placeholder="Ingresa descripcion de tu venta", name="descripcion")
+					label.label.label-info(for="descripcion") Descripcion
+					textarea#descripcion.form-control(placeholder="Ingresa descripcion de tu venta", name="descripcion", required)
 					p.help-block Ejemplo: El auto esta en excelentes condiciones tiene aire acondicionado
 				div.form-group
-					label(for="precio") Precio
-					input.form-control(type="number", step="any", placeholder="Ingresa el precio", name="precio" )
+					label.label.label-info(for="precio") Precio
+					input.form-control(type="number", step="any", placeholder="Ingresa el precio", name="precio", required )
 					p.help-block Ejemplo: 80.000
-				button.btn.btn-default(type="submit") Guardar
+				div.form-group
+					input.form-control#imagenesField(type="hidden", name="imagenes")
+					input.form-control#descripcionField(type="hidden", name="descripcionField")
+			div.row
+				div.col-lg-2.col-lg-offset-4
+					button.btn.btn-primary(type="button", onclick="enviaInformacion()") Guardar
+					button.btn.btn-danger(type="button", onclick="cancelarProducto()") Cancelar
+					hr
+
+				
+block append foot
+	script(src="http://malsup.github.com/jquery.form.js")
+	script(src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js")
+	script(src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/additional-methods.min.js")
+	script(src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/localization/messages_es.js")
+	script(src="/js/tinymce/tinymce.min.js")
+	script(src="/js/yosoyventas/subidas.js")
+
+

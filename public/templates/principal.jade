@@ -1,6 +1,6 @@
 extends layout
 block index
-	nav.navbar.navbar-default(role="navigation", ng-app="headApp")
+	nav.navbar.navbar-default(role="navigation")
 		div.col-lg-3
 			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
 			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
@@ -9,13 +9,21 @@ block index
 	div.row
 		div.container
 			h2 Principal
-
-
-
-
-		
-
-//	div.row(ng-app="headApp")
-		div.col-lg-12
-			p.btn.btn-primary(enter, leave) #{ everyauth.facebook.user.name }
-			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
+			div.row
+				each articulo in articulos
+					div.col-lg-2
+						div.thumbnail
+							if articulo.imagenes == undefined
+								h3= articulo.titulo
+							else
+								div.carousel.slide
+									div.carousel-inner
+										each imagen in articulo.imagenes
+											div.item
+												img(src=imagen.imagen)
+									a.left.carousel-control(data-slide="prev")
+										span.icon-prev
+									a.right.carousel-control(data-slide="next")
+										span.icon-next
+								h3= articulo.titulo
+							div.caption
