@@ -5,11 +5,47 @@ block index
 			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
 			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
 		div#links
-			a(href="/principal") inicio
-
-				
+			a(href="/principal") Inicio 
+	div.row
+		div.container
+			h2= articulo.titulo
+			div.col-lg-6
+				if articulo.imagenes == undefined
+					div.container#wordwrap
+						= articulo.descripcion
+				else
+					- var count = 0;
+					each imagen in articulo.imagenes
+						- count++;
+					if count > 1
+						div.carousel.slide(id=articulo.id)
+							ol.carousel-indicators
+								each imagen,i in articulo.imagenes
+									if i === 0
+										li.active(data-target="##{articulo.id}", data-slide-to=i)
+									else
+										li(data-target="##{articulo.id}", data-slide-to=i)
+							div.carousel-inner
+								each imagen,i in articulo.imagenes
+									if i === 0
+										div.item.active.thumbnail
+											img#imagenArticulo(src=imagen.imagen)
+									else
+										div.item.thumbnail
+											img#imagenArticulo(src=imagen.imagen)														
+							a.left.carousel-control(data-slide="prev", href="##{articulo.id}")
+								span.icon-prev
+							a.right.carousel-control(data-slide="next", href="##{articulo.id}")
+								span.icon-next
+					else
+						each imagen in articulo.imagenes
+							div.thumbnail
+								img#imagenArticulo(src=imagen.imagen)
+			div.col-lg-5
+				h3 $#{articulo.precio} #{articulo.tipo_moneda}
+	div.row
+		div.container
+			!= articulo.descripcion
 block append foot
-	script(src="/js/tinymce/tinymce.min.js")
-
-
-
+	script(type='text/javascript').
+		$('.carousel').carousel();

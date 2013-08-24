@@ -97,9 +97,9 @@ $('#uploadForm').submit(function() {
 });
 
 tinymce.init({ selector: "textarea",
-plugins : 'advlist autolink link lists charmap media preview emoticons searchreplace hr table textcolor',
+plugins : 'advlist autolink link lists charmap media preview emoticons searchreplace hr table textcolor image',
 browser_spellcheck : true,
-toolbar: "bold italic underline strikethrough alignleft aligncenter alignright alignjustify formatselect fontselect fontsizeselect bullist numlist outdent indent blockquote undo redo removeformat subscript superscript forecolor | preview | link | charmap | media | emoticons | searchreplace | hr | table",
+toolbar: "bold italic underline strikethrough alignleft aligncenter alignright alignjustify formatselect fontselect fontsizeselect bullist numlist outdent indent blockquote undo redo removeformat subscript superscript forecolor | preview | link | charmap | media image | emoticons | searchreplace | hr | table",
 menubar : false,
 fullpage_default_encoding: "UTF-8",
 tools: "inserttable"

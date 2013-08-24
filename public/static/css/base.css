@@ -1,3 +1,35 @@
 #spanImg{
 	margin: 0em -2em 100em;
 }
+
+/* Principal.jade**/
+
+#cuadroPrincipal{
+	height: 31em;
+	margin-bottom: 2em; 
+}
+#imagenCuadro{
+	height: 16em;
+}
+
+/*  Para adactar los textos a los divs o cosas raras**/
+#wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+}
+
+#float-boot{
+	position:relative;
+	bottom:-2.25em;
+}
+
+/* end principal.jade **/
+
+/* Begin mostrarArticulo.jade **/
+
+#imagenArticulo{
+	height: 25em;
+}

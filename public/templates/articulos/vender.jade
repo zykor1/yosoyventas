@@ -24,16 +24,24 @@ block index
 			form#informacionForm(action="/vender", method="post", enctype="multipart/form-data")
 				div.form-group
 					label.label.label-info(for="titulo") Titulo
-					input.form-control(type="text", placeholder="Ingresa un titulo para tu venta", name="titulo", required )
-					p.help-block Ejemplo: Vendo auto sentra 2008 plateado
+					input.form-control(type="text", maxlength="70", placeholder="Ingresa un titulo para tu venta", name="titulo", required )
+					p.help-block Ejemplo: Vendo auto sentra 2008 plateado, maximo 70 caracteres
+				div.form-group
+					label.label.label-info(for="descripcion_corta") Breve descripcion
+					input.form-control(type="text", maxlength="140", placeholder="Ingresa una descripcion corta acerca de tu producto", name="descripcion_corta", required )
+					p.help-block Ejemplo: La descripcion debe contener un maximo de 140 caracteres
 				div.form-group
 					label.label.label-info(for="descripcion") Descripcion
 					textarea#descripcion.form-control(placeholder="Ingresa descripcion de tu venta", name="descripcion", required)
 					p.help-block Ejemplo: El auto esta en excelentes condiciones tiene aire acondicionado
 				div.form-group
 					label.label.label-info(for="precio") Precio
-					input.form-control(type="number", step="any", placeholder="Ingresa el precio", name="precio", required )
-					p.help-block Ejemplo: 80.000
+					input.form-control(type="number", min="1",maxlength="12", step="any", placeholder="Ingresa el precio", name="precio", required )
+					select.form-group(name="tipo_moneda")
+						option(value="pesos") Pesos
+						option(value="dolares") Dolares
+						option(value="euros") Euros
+					p.help-block Ejemplo: 800.00
 				div.form-group
 					input.form-control#imagenesField(type="hidden", name="imagenes")
 					input.form-control#descripcionField(type="hidden", name="descripcionField")

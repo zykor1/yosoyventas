@@ -74,22 +74,29 @@ function moverImagen(res, path, ruta_relativa, nombre, vieja_ruta){
 
 exports.agregar = function(req, res){
 	if (req.session.auth != undefined){
+		console.log(req.body.tipo_moneda);
 		var articulo = undefined;
 		if (req.body.imagenes != ''){
 			var imgs = JSON.parse(req.body.imagenes);
-			console.log("con imangenes " + imgs);
-			var articulo = new ArticuloModel({ 
+			var articulo = new ArticuloModel({
+				_creador: req.session.auth.userId, 
 				titulo: req.body.titulo,
 				descripcion: req.body.descripcionField,
+				descripcion_corta: req.body.descripcion_corta,
 				precio: req.body.precio,
+				tipo_moneda: req.body.tipo_moneda,
 				imagenes: imgs.imagenes
 			 });
 		}else{
-			console.log("sin imangenes ");
+			var img = [{imagen : "/img/Photo.png"}]
 			var articulo = new ArticuloModel({ 
+				_creador: req.session.auth.userId, 
 				titulo: req.body.titulo,
 				descripcion: req.body.descripcionField,
+				descripcion_corta: req.body.descripcion_corta,
 				precio: req.body.precio,
+				tipo_moneda: req.body.tipo_moneda,
+				imagenes: img
 			 });
 		}
 		console.log(articulo);
@@ -104,6 +111,19 @@ exports.agregar = function(req, res){
 		  else{
 		  	console.log("2 : " + err);
 		  	//res.render('articulos/vender', { exito: "Guardado" });
+		  		var titulo_sin_espacios = req.body.titulo.replace(/ /g,"_")
+		  		console.log(req.body.descripcion_corta);
+		  		var crea_link = "http://yosoyventas.com/"+ articulo._id+"/"+titulo_sin_espacios;
+		  		console.log(crea_link);
+				var wallPost = {
+				  message: req.body.descripcion_corta,
+				  link: crea_link
+				};
+				graph.post("276062135815874/feed", wallPost, function(err, res) {
+				  // returns the post id
+				  console.log("estoy aqui");
+				  console.log(res.error); // { id: xxxxx}
+				});
 		  	res.send({
 				mensaje: "Se ha guardado exitosamente: " + req.body.titulo
 			});
@@ -119,24 +139,33 @@ exports.agregar = function(req, res){
 
 
 exports.mostrarArticulo = function(req, res){
-	if (req.session.auth == undefined){
-		var id_articulo = req.params.id_articulo,
-       	titulo = req.params.titulo;
-		res.render('articulos/mostrarArticulo', { title: 'Yo Soy Ventas' });
+	if (req.session.auth != undefined){
+		ArticuloModel.findById(req.params.id_articulo, function (err, articulo){
+			console.log("ya estamos dentro del articulo :D " + articulo.titulo);
+			res.render('articulos/mostrarArticulo', { title: 'Yo Soy Ventas', articulo: articulo });
+		});
 	}
 	else{
 		res.redirect('/principal')
 	}
 };
 
-/* Agregar articulo a vender funciona xD
-		var articulo = new ArticuloModel({ 
-			titulo: 'Zildjian',
-			descripcion: 'hola mundo',
-			precio: 62.7
-		 });
-		articulo.save(function (err) {
-		  if (err) // ...
-		  console.log('meow');
-		});
-		**/
+/* Ya publico al grupo
+
+exports.index = function(req, res){
+	if (req.session.auth != undefined){
+	var wallPost = {
+	  message: "Proximamente YoSoyVentas.com"
+	};
+	graph.post("276062135815874/feed", wallPost, function(err, res) {
+	  // returns the post id
+	  console.log(res.error.message); // { id: xxxxx}
+	});
+
+	res.render('principal');
+	}else{
+    	res.redirect('/')
+    }
+};
+
+**/

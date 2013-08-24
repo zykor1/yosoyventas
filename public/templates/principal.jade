@@ -10,20 +10,59 @@ block index
 		div.container
 			h2 Principal
 			div.row
+				- var col = -1;
 				each articulo in articulos
-					div.col-lg-2
-						div.thumbnail
+					- col++;
+					if col >= 3
+						div.row
+						- col = 0;
+
+					div.col-lg-4
+						div.thumbnail#cuadroPrincipal
 							if articulo.imagenes == undefined
-								h3= articulo.titulo
+								div.caption#wordwrap
+									h3= articulo.titulo
+									p= articulo.descripcion_corta
 							else
-								div.carousel.slide
-									div.carousel-inner
-										each imagen in articulo.imagenes
-											div.item
-												img(src=imagen.imagen)
-									a.left.carousel-control(data-slide="prev")
-										span.icon-prev
-									a.right.carousel-control(data-slide="next")
-										span.icon-next
-								h3= articulo.titulo
-							div.caption
+								- var count = 0;
+								each imagen in articulo.imagenes
+									- count++;
+								if count > 1
+									div.carousel.slide(id=articulo.id)
+										ol.carousel-indicators
+											each imagen,i in articulo.imagenes
+												if i === 0
+													li.active(data-target="##{articulo.id}", data-slide-to=i, data-interval="2000")
+												else
+													li(data-target="##{articulo.id}", data-slide-to=i)
+										div.carousel-inner
+											each imagen,i in articulo.imagenes
+												if i === 0
+													div.item.active.thumbnail
+														img#imagenCuadro(src=imagen.imagen)
+												else
+													div.item.thumbnail
+														img#imagenCuadro(src=imagen.imagen)														
+										a.left.carousel-control(data-slide="prev", href="##{articulo.id}")
+											span.icon-prev
+										a.right.carousel-control(data-slide="next", href="##{articulo.id}")
+											span.icon-next
+									div.caption#wordwrap
+										h3= articulo.titulo
+										p= articulo.descripcion_corta
+										- var titulo = articulo.titulo.replace(/ /g,"_");
+										a(href="/#{articulo.id}/#{titulo}")
+											span.icon-next Ver mas
+
+								else
+									each imagen in articulo.imagenes
+										img#imagenCuadro(src=imagen.imagen)
+									div#wordwrap.caption
+										h3= articulo.titulo
+										p= articulo.descripcion_corta
+										- var titulo = articulo.titulo.replace(/ /g,"_");
+										a(href="/#{articulo.id}/#{titulo}")
+											span.icon-next Ver mas
+block append foot
+	script(type='text/javascript').
+		$('.carousel').carousel();
