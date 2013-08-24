@@ -113,7 +113,7 @@ exports.agregar = function(req, res){
 		  	//res.render('articulos/vender', { exito: "Guardado" });
 		  		var titulo_sin_espacios = req.body.titulo.replace(/ /g,"_")
 		  		console.log(req.body.descripcion_corta);
-		  		var crea_link = "http://yosoyventas.com/"+ articulo._id+"/"+titulo_sin_espacios;
+		  		var crea_link = "http://198.199.120.36:3000/"+ articulo._id+"/"+titulo_sin_espacios;
 		  		console.log(crea_link);
 				var wallPost = {
 				  message: req.body.descripcion_corta,
