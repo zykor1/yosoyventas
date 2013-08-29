@@ -51,7 +51,6 @@ everyauth.facebook
 
                 // user found, life is good
                 promise.fulfill(user);
-                graph.setAccessToken(accessToken);
 
             } else {
 
@@ -71,7 +70,6 @@ everyauth.facebook
                 User.save(function(err,user) {
                     if (err) return promise.fulfill([err]);
                     promise.fulfill(user);
-                    graph.setAccessToken(accessToken);
                 });
 
             }
@@ -118,10 +116,16 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/principal', principal.index);
 // Articulos a la venta
-app.get('/vender', articulos.index);
+app.get('/vender', articulos.formularioAgregar);
 app.post('/vender', articulos.agregar);
 app.post('/vender/subirImagen', articulos.subirImagen);
+app.get('/eliminaImagen', articulos.eliminaImagen);
+app.get('/eliminaArticulo', articulos.eliminaArticulo);
+app.get('/posteaFace', articulos.posteaFace);
 app.get('/:id_articulo/:titulo', articulos.mostrarArticulo);
+app.get('/edita/:id_articulo/:titulo', articulos.editarArticulo);
+app.post('/edita/guardaCambios', articulos.guardaCambiosArticulo);
+app.get('/misArticulos', articulos.misArticulos);
 
 
 

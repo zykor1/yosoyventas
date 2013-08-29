@@ -16,7 +16,8 @@ var ArticuloSchema = Schema({
     fecha_creacion: { type: Date, default: Date.now },
     imagenes: {},
     comentarios: [{type: Schema.Types.ObjectId, ref: 'ArticuloComentarioModel'}],
-    calificacion: [{type: Schema.Types.ObjectId, ref: 'UserModel', calificacion: Boolean}]
+    calificacion: [{type: Schema.Types.ObjectId, ref: 'UserModel', calificacion: Boolean}],
+    postFaceId: String
 });
 
 

@@ -5,19 +5,36 @@ block index
 			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
 			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
 		div#links
-			a(href="/principal") Inicio 
+			div.panel.panel-default
+				a.btn.btn-info(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a inicio", href="/principal")
+					span.glyphicon.glyphicon-home
+				|-
+				a.btn.btn-primary(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Mis articulos",href="/misArticulos") 
+					span.glyphicon.glyphicon-th-large
+				|-
+				a.btn.btn-success(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a vender",href="/vender") 
+					span.glyphicon.glyphicon-usd
+				|-
+				if everyauth.userId == articulo._creador
+					- var titulo = articulo.titulo.replace(/ /g,"_");
+					a.btn.btn-warning(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Editar articulo", href="/edita/#{articulo.id}/#{titulo}")
+						span.glyphicon.glyphicon-pencil
+					|-
+					if articulo.postFaceId == undefined
+						a#botonPublicaFacebook.btn.btn-primary(onClick="publicaFace(\'#{articulo.id}\')", data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Publicar en facebook", href="#")
+							span.glyphicon.glyphicon-cloud-upload
+						|-
+					a.btn.btn-danger(data-placement="bottom",onClick="mandaEliminar(\'#{articulo.id}\', \'mostrarArticulo\')", data-toggle="modal", href="#modalEliminaArticulo", rel="tooltip", title="Eliminar este articulo")
+						span.glyphicon.glyphicon-trash
 	div.row
 		div.container
 			h2= articulo.titulo
 			div.col-lg-6
 				if articulo.imagenes == undefined
-					div.container#wordwrap
-						= articulo.descripcion
+					div.thumbnail
+						img#imagenArticulo(src="/img/no_imagen.png")
 				else
-					- var count = 0;
-					each imagen in articulo.imagenes
-						- count++;
-					if count > 1
+					if articulo.imagenes.length  > 1
 						div.carousel.slide(id=articulo.id)
 							ol.carousel-indicators
 								each imagen,i in articulo.imagenes
@@ -46,6 +63,20 @@ block index
 	div.row
 		div.container
 			!= articulo.descripcion
+	div.modal.fade#modalEliminaArticulo(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+					h4 Seguro que deseas eliminar el articulo.
+				div.modal-body
+					p Si eliminas el articulo el cambio sera permanente ¿estas seguro?
+				div.modal-footer
+					button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+					button#botonModalEliminar.btn.btn-danger(type="button") Eliminar
+	div#modals
 block append foot
+	script(src="/js/yosoyventas/misArticulos.js")
 	script(type='text/javascript').
 		$('.carousel').carousel();
+		$('[rel="tooltip"]').tooltip();

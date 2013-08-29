@@ -5,10 +5,18 @@ block index
 			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
 			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
 		div#links
-			a(href="/vender") Vender 
+			div.panel.panel-default
+				a.btn.btn-info(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a inicio", href="/principal")
+					span.glyphicon.glyphicon-home
+				|-
+				a.btn.btn-primary(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Mis articulos",href="/misArticulos") 
+					span.glyphicon.glyphicon-th-large
+				|-
+				a.btn.btn-success(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a vender",href="/vender") 
+					span.glyphicon.glyphicon-usd
 	div.row
 		div.container
-			h2 Principal
+			h2 Inicio
 			div.row
 				- var col = -1;
 				each articulo in articulos
@@ -19,15 +27,15 @@ block index
 
 					div.col-lg-4
 						div.thumbnail#cuadroPrincipal
-							if articulo.imagenes == undefined
+							if (articulo.imagenes == undefined) || (articulo.imagenes.length == 0)
+								img#imagenCuadro(src="/img/no_imagen.png")
 								div.caption#wordwrap
-									h3= articulo.titulo
-									p= articulo.descripcion_corta
+									- var titulo = articulo.titulo.replace(/ /g,"_");
+									a(rel="tooltip", data-toggle="tooltip", title="Ver mas", href="/#{articulo.id}/#{titulo}")
+										h3= articulo.titulo
+									p= articulo.descripcion_corta								
 							else
-								- var count = 0;
-								each imagen in articulo.imagenes
-									- count++;
-								if count > 1
+								if articulo.imagenes.length > 1
 									div.carousel.slide(id=articulo.id)
 										ol.carousel-indicators
 											each imagen,i in articulo.imagenes
@@ -41,28 +49,26 @@ block index
 													div.item.active.thumbnail
 														img#imagenCuadro(src=imagen.imagen)
 												else
-													div.item.thumbnail
+													div.item.thumbnail											
 														img#imagenCuadro(src=imagen.imagen)														
 										a.left.carousel-control(data-slide="prev", href="##{articulo.id}")
 											span.icon-prev
 										a.right.carousel-control(data-slide="next", href="##{articulo.id}")
 											span.icon-next
 									div.caption#wordwrap
-										h3= articulo.titulo
-										p= articulo.descripcion_corta
 										- var titulo = articulo.titulo.replace(/ /g,"_");
-										a(href="/#{articulo.id}/#{titulo}")
-											span.icon-next Ver mas
-
+										a(rel="tooltip", data-toggle="tooltip", title="Ver mas", href="/#{articulo.id}/#{titulo}")
+											h3= articulo.titulo
+										p= articulo.descripcion_corta
 								else
 									each imagen in articulo.imagenes
 										img#imagenCuadro(src=imagen.imagen)
-									div#wordwrap.caption
-										h3= articulo.titulo
-										p= articulo.descripcion_corta
+									div.caption#wordwrap
 										- var titulo = articulo.titulo.replace(/ /g,"_");
-										a(href="/#{articulo.id}/#{titulo}")
-											span.icon-next Ver mas
+										a(rel="tooltip", data-toggle="tooltip", title="Ver mas", href="/#{articulo.id}/#{titulo}")
+											h3= articulo.titulo
+										p= articulo.descripcion_corta						
 block append foot
 	script(type='text/javascript').
 		$('.carousel').carousel();
+		$('[rel="tooltip"]').tooltip();

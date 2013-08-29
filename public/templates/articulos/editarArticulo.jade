@@ -15,6 +15,17 @@ block index
 				a.btn.btn-success(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a vender",href="/vender") 
 					span.glyphicon.glyphicon-usd
 				|-
+				if everyauth.userId == articulo._creador
+					- var titulo = articulo.titulo.replace(/ /g,"_");
+					a.btn.btn-warning(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Editar articulo", href="/edita/#{articulo.id}/#{titulo}")
+						span.glyphicon.glyphicon-pencil
+					|-
+					if articulo.postFaceId == undefined
+						a#botonPublicaFacebook.btn.btn-primary(onClick="publicaFace(\'#{articulo.id}\')", data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Publicar en facebook", href="#")
+							span.glyphicon.glyphicon-cloud-upload
+						|-
+					a.btn.btn-danger(data-placement="bottom",onClick="mandaEliminar(\'#{articulo.id}\', \'mostrarArticulo\')", data-toggle="modal", href="#modalEliminaArticulo", rel="tooltip", title="Eliminar este articulo")
+						span.glyphicon.glyphicon-trash
 	div.row
 		div.container
 			div.row
@@ -31,14 +42,14 @@ block index
 					div.row#imagenes
 						div.media
 			hr
-			form#informacionForm(action="/vender", method="post", enctype="multipart/form-data")
+			form#informacionForm(action="/edita/guardaCambios", method="post", enctype="multipart/form-data")
 				div.form-group
 					label.label.label-info(for="titulo") Titulo
-					input.form-control(type="text", maxlength="70", placeholder="Ingresa un titulo para tu venta", name="titulo", required )
+					input.form-control(type="text", value= articulo.titulo, maxlength="70", placeholder="Ingresa un titulo para tu venta", name="titulo", required )
 					p.help-block Ejemplo: Vendo auto sentra 2008 plateado, maximo 70 caracteres
 				div.form-group
 					label.label.label-info(for="descripcion_corta") Breve descripcion
-					input.form-control(type="text", maxlength="140", placeholder="Ingresa una descripcion corta acerca de tu producto", name="descripcion_corta", required )
+					input.form-control(type="text", value= articulo.descripcion_corta, maxlength="140", placeholder="Ingresa una descripcion corta acerca de tu producto", name="descripcion_corta", required )
 					p.help-block Ejemplo: La descripcion debe contener un maximo de 140 caracteres
 				div.form-group
 					label.label.label-info(for="descripcion") Descripcion
@@ -46,8 +57,8 @@ block index
 					p.help-block Ejemplo: El auto esta en excelentes condiciones tiene aire acondicionado
 				div.form-group
 					label.label.label-info(for="precio") Precio
-					input.form-control(type="number", min="1",maxlength="12", step="any", placeholder="Ingresa el precio", name="precio", required )
-					select.form-group(name="tipo_moneda")
+					input.form-control(value= articulo.precio, type="number", min="1",maxlength="12", step="any", placeholder="Ingresa el precio", name="precio", required )
+					select.form-group(value= articulo.tipo_moneda, name="tipo_moneda")
 						option(value="pesos") Pesos
 						option(value="dolares") Dolares
 						option(value="euros") Euros
@@ -55,9 +66,12 @@ block index
 				div.form-group
 					input.form-control#imagenesField(type="hidden", name="imagenes")
 					input.form-control#descripcionField(type="hidden", name="descripcionField")
+					input.form-control#idArticuloField(value=articulo.id, type="hidden", name="idArticuloField")
+					div#aux.hide(type="hidden")
+						!= articulo.descripcion
 			div.row
 				div.text-center
-					button#btnGuardar.btn.btn-primary.btn-lg(type="button", onclick="enviaInformacion()") Guardar
+					button#btnGuardar.btn.btn-primary.btn-lg(type="button", onclick="enviaInformacion('editar')") Guardar
 					hr
 	div.modal.fade#modalEliminaImagen(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
 		div.modal-dialog
@@ -78,8 +92,18 @@ block index
 					h4#tituloModalMensaje
 				div.modal-body#bodyModalMensaje
 				div.modal-footer#footerModalMensaje
-
-				
+	div.modal.fade#modalEliminaArticulo(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+					h4 Seguro que deseas eliminar el articulo.
+				div.modal-body
+					p Si eliminas el articulo el cambio sera permanente ¿estas seguro?
+				div.modal-footer
+					button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
+					button#botonModalEliminar.btn.btn-danger(type="button") Eliminar
+	div#modals
 block append foot
 	script(src="http://malsup.github.com/jquery.form.js")
 	script(src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js")
@@ -87,8 +111,15 @@ block append foot
 	script(src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/localization/messages_es.js")
 	script(src="/js/tinymce/tinymce.min.js")
 	script(src="/js/yosoyventas/subidas.js")
-	script(type='text/javascript').
-		cargarTiny("");
+	script(src="/js/yosoyventas/misArticulos.js")
+	if imagenes != undefined
+		script.
+			var imagenes = !{imagenes};
+			cargaImagenes(imagenes, '#{articulo.id}');
+	script.
+		var aux = $('#aux').html();
+		cargarTiny(aux);
 		$('[rel="tooltip"]').tooltip();
+
 
 

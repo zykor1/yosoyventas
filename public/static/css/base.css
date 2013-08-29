@@ -2,13 +2,22 @@
 	margin: 0em -2em 100em;
 }
 
+/* vender.jade**/
+#uploadedImage{
+	height: 107px;
+}
+
+
+
 /* Principal.jade**/
 
 #cuadroPrincipal{
 	height: 31em;
 	margin-bottom: 2em; 
 }
+
 #imagenCuadro{
+
 	height: 16em;
 }
 
@@ -26,7 +35,12 @@
 	bottom:-2.25em;
 }
 
+.hide {
+    display: none;
+}
+
 /* end principal.jade **/
+
 
 /* Begin mostrarArticulo.jade **/
 
