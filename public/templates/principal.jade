@@ -17,7 +17,7 @@ block index
 	div.row
 		div.container
 			h2 Inicio
-			div.row
+			div.row#contenedorCuadros
 				- var col = -1;
 				each articulo in articulos
 					- col++;
@@ -67,8 +67,11 @@ block index
 										- var titulo = articulo.titulo.replace(/ /g,"_");
 										a(rel="tooltip", data-toggle="tooltip", title="Ver mas", href="/#{articulo.id}/#{titulo}")
 											h3= articulo.titulo
-										p= articulo.descripcion_corta						
+										p= articulo.descripcion_corta	
+	div.text-center
+		button.btn.btn-primary(onClick='paginar()')	¡Mas!	
 block append foot
+	script(src="/js/yosoyventas/paginacion.js")
 	script(type='text/javascript').
 		$('.carousel').carousel();
 		$('[rel="tooltip"]').tooltip();
