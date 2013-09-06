@@ -405,7 +405,7 @@ function eliminaPostFacebook(accessToken, post_id){
 // Requisitos quien=Funcion que solicita el posteo, user_id, articulo, a donde se va a publicar, y response para poder contestar al cliente
 function postFacebook(quien, user_id, articulo, accessToken, to_face, res){
 	var titulo_sin_espacios = articulo.titulo.replace(/ /g,"_")
-	var crea_link = "http://198.199.120.36:3000/"+ articulo.id+"/"+titulo_sin_espacios;
+	var crea_link = "http://198.199.120.36:3000/mostrar/"+ articulo.id+"/"+titulo_sin_espacios;
 	console.log(articulo);
 	var wallPost = {
 		caption: articulo.titulo,
