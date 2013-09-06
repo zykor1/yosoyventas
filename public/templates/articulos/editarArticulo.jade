@@ -1,10 +1,10 @@
 extends ../layout
 block index
-	nav.navbar.navbar-default(role="navigation")
-		div.col-lg-3
-			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
-			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
-		div#links
+	nav.navbar(role="navigation")
+		div#links.navbar-fixed-top
+			div.col-lg-3.col-md-3.col-sm-3.col-xs-3
+				img#spanImg(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
+				span#spanImg.label.label-primary #{ everyauth.facebook.user.name }
 			div.panel.panel-default
 				a.btn.btn-info(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a inicio", href="/principal")
 					span.glyphicon.glyphicon-home
@@ -34,19 +34,38 @@ block index
 						h2 Producto a vender
 					else
 						h2 #{ exito }
-			form#uploadForm(action="/vender/subirImagen", method="post", enctype="multipart/form-data")
+			form.form-inline#uploadForm(action="/vender/subirImagen", method="post", enctype="multipart/form-data")
 				div.form-group
-					div.alert.alert-info#status
-					div.col-lg-3
-						input.btn.btn-success#userPhotoInput.form-control(type="file", placeholder="Agregar imagen", name="imagen") Elige imagen
-					div.row#imagenes
-						div.media
-			hr
+					a.btn.btn-primary#status(href="#")
+					input.hide#userPhotoInput.form-control(type="file", placeholder="Agregar imagen", name="imagen", accept="image/*") Elige imagen
+				div.row#imagenes
+					div.media
 			form#informacionForm(action="/edita/guardaCambios", method="post", enctype="multipart/form-data")
 				div.form-group
-					label.label.label-info(for="titulo") Titulo
-					input.form-control(type="text", value= articulo.titulo, maxlength="70", placeholder="Ingresa un titulo para tu venta", name="titulo", required )
-					p.help-block Ejemplo: Vendo auto sentra 2008 plateado, maximo 70 caracteres
+					div.form-inline
+						div.form-group
+							label.label.label-info(for="titulo") Titulo
+							input.form-control(value= articulo.titulo, type="text", maxlength="70", placeholder="Ingresa un titulo para tu venta", name="titulo", required )
+							p.help-block Ejemplo: Vendo auto sentra 2008 plateado, maximo 70 caracteres
+						|    
+						div.form-group
+							label.label.label-info(for="precio") Precio
+							input.form-control(value= articulo.precio, type="number", min="1",maxlength="12", step="any", placeholder="Ingresa el precio", name="precio", required )
+							p.help-block Ejemplo: 800.00
+						|    
+						div.form-group
+							label.label.label-info(for="tipo_moneda") Tipo de moneda
+							select#tipo_moneda.form-control(name="tipo_moneda", required)
+								option(value="Pesos") Pesos
+								option(value="Dolares") Dolares
+								option(value="Euros") Euros
+							p.help-block Tipos: Pesos, Dolares, Euros
+						div.col-lg-2.col-md-2.col-sm-2.col-xs-2.pull-right
+							input(type="checkbox", name="precio_negociable", checked=(articulo.precio_negociable? "checked" : undefined))
+							| Permitir negociar
+							br
+							input(type="checkbox", name="local", checked=(articulo.local? "checked" : undefined))
+							| Solo entrega local
 				div.form-group
 					label.label.label-info(for="descripcion_corta") Breve descripcion
 					input.form-control(type="text", value= articulo.descripcion_corta, maxlength="140", placeholder="Ingresa una descripcion corta acerca de tu producto", name="descripcion_corta", required )
@@ -55,14 +74,6 @@ block index
 					label.label.label-info(for="descripcion") Descripcion
 					textarea#descripcion.form-control(placeholder="Ingresa descripcion de tu venta", name="descripcion", required)
 					p.help-block Ejemplo: El auto esta en excelentes condiciones tiene aire acondicionado
-				div.form-group
-					label.label.label-info(for="precio") Precio
-					input.form-control(value= articulo.precio, type="number", min="1",maxlength="12", step="any", placeholder="Ingresa el precio", name="precio", required )
-					select.form-group(value= articulo.tipo_moneda, name="tipo_moneda")
-						option(value="pesos") Pesos
-						option(value="dolares") Dolares
-						option(value="euros") Euros
-					p.help-block Ejemplo: 800.00
 				div.form-group
 					input.form-control#imagenesField(type="hidden", name="imagenes")
 					input.form-control#descripcionField(type="hidden", name="descripcionField")
@@ -102,7 +113,7 @@ block index
 					p Si eliminas el articulo el cambio sera permanente ¿estas seguro?
 				div.modal-footer
 					button.btn.btn-default(type="button", data-dismiss="modal") Cancelar
-					button#botonModalEliminar.btn.btn-danger(type="button") Eliminar
+					button#botonModalEliminarArticulo.btn.btn-danger(type="button") Eliminar
 	div#modals
 block append foot
 	script(src="http://malsup.github.com/jquery.form.js")
@@ -120,6 +131,7 @@ block append foot
 		var aux = $('#aux').html();
 		cargarTiny(aux);
 		$('[rel="tooltip"]').tooltip();
+		$('#tipo_moneda').val('#{articulo.tipo_moneda}');
 
 
 

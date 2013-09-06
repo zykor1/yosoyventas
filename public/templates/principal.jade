@@ -1,10 +1,10 @@
 extends layout
 block index
-	nav.navbar.navbar-default(role="navigation")
-		div.col-lg-3
-			img(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
-			span.label.label-primary#spanImg #{ everyauth.facebook.user.name }
-		div#links
+	nav.navbar(role="navigation")
+		div#links.navbar-fixed-top
+			div.col-lg-3.col-md-3.col-sm-3.col-xs-3
+				img#spanImg(src='https://graph.facebook.com/#{everyauth.facebook.user.id}/picture?width=80&height=80')
+				span#spanImg.label.label-primary #{ everyauth.facebook.user.name }
 			div.panel.panel-default
 				a.btn.btn-info(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a inicio", href="/principal")
 					span.glyphicon.glyphicon-home
@@ -18,60 +18,12 @@ block index
 		div.container
 			h2 Inicio
 			div.row#contenedorCuadros
-				- var col = -1;
-				each articulo in articulos
-					- col++;
-					if col >= 3
-						div.row
-						- col = 0;
-
-					div.col-lg-4
-						div.thumbnail#cuadroPrincipal
-							if (articulo.imagenes == undefined) || (articulo.imagenes.length == 0)
-								img#imagenCuadro(src="/img/no_imagen.png")
-								div.caption#wordwrap
-									- var titulo = articulo.titulo.replace(/ /g,"_");
-									a(rel="tooltip", data-toggle="tooltip", title="Ver mas", href="/#{articulo.id}/#{titulo}")
-										h3= articulo.titulo
-									p= articulo.descripcion_corta								
-							else
-								if articulo.imagenes.length > 1
-									div.carousel.slide(id=articulo.id)
-										ol.carousel-indicators
-											each imagen,i in articulo.imagenes
-												if i === 0
-													li.active(data-target="##{articulo.id}", data-slide-to=i, data-interval="2000")
-												else
-													li(data-target="##{articulo.id}", data-slide-to=i)
-										div.carousel-inner
-											each imagen,i in articulo.imagenes
-												if i === 0
-													div.item.active.thumbnail
-														img#imagenCuadro(src=imagen.imagen)
-												else
-													div.item.thumbnail											
-														img#imagenCuadro(src=imagen.imagen)														
-										a.left.carousel-control(data-slide="prev", href="##{articulo.id}")
-											span.icon-prev
-										a.right.carousel-control(data-slide="next", href="##{articulo.id}")
-											span.icon-next
-									div.caption#wordwrap
-										- var titulo = articulo.titulo.replace(/ /g,"_");
-										a(rel="tooltip", data-toggle="tooltip", title="Ver mas", href="/#{articulo.id}/#{titulo}")
-											h3= articulo.titulo
-										p= articulo.descripcion_corta
-								else
-									each imagen in articulo.imagenes
-										img#imagenCuadro(src=imagen.imagen)
-									div.caption#wordwrap
-										- var titulo = articulo.titulo.replace(/ /g,"_");
-										a(rel="tooltip", data-toggle="tooltip", title="Ver mas", href="/#{articulo.id}/#{titulo}")
-											h3= articulo.titulo
-										p= articulo.descripcion_corta	
-	div.text-center
-		button.btn.btn-primary(onClick='paginar()')	¡Mas!	
+	p#escondido.hide
 block append foot
 	script(src="/js/yosoyventas/paginacion.js")
 	script(type='text/javascript').
+		//$('#escondido').html('#{articulos_txt}');
+		//var info = $('#escondido').text();
+		paginar();
 		$('.carousel').carousel();
 		$('[rel="tooltip"]').tooltip();

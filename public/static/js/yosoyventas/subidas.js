@@ -17,7 +17,7 @@ var jsonAux = undefined;
  })();
 
 // Sirve para manejar el json en tiempo de ejecucion e intentar mantener ordenado los datos de las imagenes
-function manageAux(ruta_imagen){
+function manageAux(ruta_imagen, filename){
 	var id_imagen = 0;
 	console.log(jsonAux);
 	if (jsonAux==undefined){
@@ -29,30 +29,58 @@ function manageAux(ruta_imagen){
 		}	
 		jsonAux.imagenes.push({ imagen : ruta_imagen, _id : id_imagen });	    	
 	}
-	$('#status').text('Exito, La imagen fue subida:').removeClass("alert alert-info").addClass("alert alert-success" );
+	$('#status').text('La imagen '+filename+' fue agregada correctamente, has click aqui para agregar otra').removeClass("alert alert-info alert-danger").addClass("alert alert-success" );
 	//$('#imagenes').append('<div class="media col-lg-2 '+ id_imagen +'"><img id="uploadedImage" class="media-object img-thumbnail" src='+ ruta_imagen +'><a href="#" class="btn btn-danger btn-xs" onClick="eliminaImagen(\''+id_imagen+'\', \'NO\', \''+ruta_imagen+'\')">eliminar</a></div>');
 	$('#imagenes').append('<div class="media col-lg-2 '+ id_imagen +'"><img id="uploadedImage" class="media-object img-thumbnail" src='+ ruta_imagen +'><a data-toggle="modal" data-placement="bottom" rel="tooltip" title="Elimina esta imagen" href="#modalEliminaImagen" onClick="cambiaOnclick(\''+id_imagen+'\',\'NO\', \''+ruta_imagen+'\')" class="btn btn-danger btn-xs" >eliminar imagen</a></div>');
 	$('#userPhotoInput').val('');	
 	
 }
 
+//bind click
+$('#status').click(function(event) {
+  $('#userPhotoInput').click();
+});
+
+
+
 
 $(document).ready(function()
 {
+
+
+
 	$('#status').text('Elige una imagen :)').removeClass("alert alert-success").addClass("alert alert-info" );
+	
+
 	$('input[type=file]').change(function()
 	{ 
-		    // select the form and submit
-		    $('#uploadForm').submit(); 
+			var filename = $('input[type=file]').val().split('\\').pop();
+			var extension = filename.split('.').pop();
+			extension = extension.toUpperCase();
+			var tamaño = this.files[0].size/1048576;
+				if (extension == 'PNG' || extension == 'GIF' || extension == 'JPG' || extension == 'JPEG'){
+					if (tamaño > 2){
+				 		$('#status').text('El tamaño de la imagen es mayor  2 megas, por favor sube imagenes mas menos pesadas').removeClass("alert alert-info").addClass("alert alert-danger" );
+					}else{
+						// select the form and submit
+			    		$('#uploadForm').submit(); 
+					}
+				}else{
+					 $('#status').text('Elige una imagen (png, gif, jpg) haciendo clic aqui.').removeClass("alert alert-info").addClass("alert alert-danger" );
+				}
+
+
+
 	});
 	$('#uploadForm').submit(function() 
 	{
-	    $('#status').text('Subiendo la imagen espera por favor').removeClass("alert alert-success").addClass("alert alert-info" );
+		var filename = $('input[type=file]').val().split('\\').pop();
+	    $('#status').text('Subiendo la imagen: '+filename+' espera por favor').removeClass("alert alert-success alert-danger").addClass("alert alert-info" );
 		$(this).ajaxSubmit(
 		{                                                                                                   
 			    error: function(xhr) 
 				{
-				        $('#status').text('Elige una imagen en el recuadro de abajo').removeClass("alert alert-info").addClass("alert alert-danger" );
+				        $('#status').text('Elige una imagen haciendo clic aqui').removeClass("alert alert-info alert-success").addClass("alert alert-danger" );
 				},
 				success: function(response) 
 				{
@@ -61,7 +89,7 @@ $(document).ready(function()
 					    mensaje('Algo malo paso xD' + response.error);
 					    return;
 					}
-				    manageAux(response.path);
+				    manageAux(response.path, filename);
 				}
 		});
 		    
@@ -214,12 +242,3 @@ function enviaInformacion(valor){
 	}
 
 }
-
-
-
-		
-
-                      
-
-
-

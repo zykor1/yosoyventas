@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , principal = require('./routes/principal')
   , articulos = require('./routes/articulos')
+  , comentarios = require('./routes/comentarios')
   , http = require('http')
   , fs = require('fs')
   , path = require('path');
@@ -122,11 +123,15 @@ app.post('/vender/subirImagen', articulos.subirImagen);
 app.get('/eliminaImagen', articulos.eliminaImagen);
 app.get('/eliminaArticulo', articulos.eliminaArticulo);
 app.get('/posteaFace', articulos.posteaFace);
-app.get('/:id_articulo/:titulo', articulos.mostrarArticulo);
+app.get('/mostrar/:id_articulo/:titulo', articulos.mostrarArticulo);
 app.get('/edita/:id_articulo/:titulo', articulos.editarArticulo);
 app.post('/edita/guardaCambios', articulos.guardaCambiosArticulo);
 app.get('/misArticulos', articulos.misArticulos);
-
+// Comentarios
+app.post('/addComentario', comentarios.addComentario);
+app.get('/leeComentarios/:id_articulo', comentarios.leeComentarios);
+app.get('/eliminaComentario', comentarios.eliminaComentario);
+app.get('/calificaComentario', comentarios.calificaComentario);
 
 
 http.createServer(app).listen(app.get('port'), function(){

@@ -11,11 +11,11 @@ var ArticuloSchema = Schema({
     descripcion_corta: String,
     precio: Number,
     tipo_moneda: String,
-    permitir_cambio: Boolean,
     precio_negociable: Boolean,
+    local: Boolean,
     fecha_creacion: { type: Date, default: Date.now },
+    fecha_modificacion: { type: Date, default: Date.now },
     imagenes: {},
-    comentarios: [{type: Schema.Types.ObjectId, ref: 'ArticuloComentarioModel'}],
     calificacion: [{type: Schema.Types.ObjectId, ref: 'UserModel', calificacion: Boolean}],
     postFaceId: String
 });
@@ -24,11 +24,13 @@ var ArticuloSchema = Schema({
 var ArticuloComentarioSchema = Schema({
 	_creador: { type: Schema.Types.ObjectId, ref: 'UserModel' },
 	_articulo: { type: Schema.Types.ObjectId, ref: 'ArticuloModel' },
-    titulo: String,
+    respuesta: { type: Schema.Types.ObjectId, ref: 'Comentario' },
     comentario: String,
-    precio: Number,
     fecha_creacion: { type: Date, default: Date.now },
-    calificacion: [{type: Schema.Types.ObjectId, ref: 'UserModel', calificacion: Boolean}]
+    calificacion: [{
+                        usuario: {type: Schema.Types.ObjectId, ref: 'UserModel'},
+                        calificacion: Boolean
+                    }]
 });
 
 module.exports = mongoose.model('ArticuloModel', ArticuloSchema);

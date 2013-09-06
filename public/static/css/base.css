@@ -1,6 +1,8 @@
+/*Se usa para mover la imagen y nombre de usuario*/
 #spanImg{
-	margin: 0em -2em 100em;
+	margin: 0em -2em 0em;
 }
+
 
 /* vender.jade**/
 #uploadedImage{
@@ -35,10 +37,15 @@
 	bottom:-2.25em;
 }
 
+/* Lo uso para desaparecer partes que no quiero que se vean xD*/
 .hide {
     display: none;
 }
 
+/* Lo uso para que los textArea no tengan rezise */
+.offresize{
+	resize: none;
+}
 /* end principal.jade **/
 
 
@@ -46,4 +53,9 @@
 
 #imagenArticulo{
 	height: 25em;
+}
+
+/* Sirve para pintar el comentario del vendedor */ 
+.comentarioVendedor{
+	background-color: #FFFFDC;
 }

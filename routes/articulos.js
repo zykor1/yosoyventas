@@ -48,6 +48,34 @@ function getDateTime() {
 
 }
 
+//funcion para obtener el datetime actual
+function DateNow() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+
+}
+
+
+
 // --------------------------------inicio de metodos para manegar imagenes--------------------------------------------
 
 // Elimina una imagen
@@ -168,6 +196,9 @@ exports.agregar = function(req, res){
 				descripcion: req.body.descripcionField,
 				descripcion_corta: req.body.descripcion_corta,
 				precio: req.body.precio,
+				precio_negociable: req.body.precio_negociable,
+				local: req.body.local,
+				fecha_modificacion: DateNow(),
 				tipo_moneda: req.body.tipo_moneda,
 				imagenes: imgs.imagenes
 			 });
@@ -178,7 +209,10 @@ exports.agregar = function(req, res){
 				descripcion: req.body.descripcionField,
 				descripcion_corta: req.body.descripcion_corta,
 				precio: req.body.precio,
-				tipo_moneda: req.body.tipo_moneda,
+				precio_negociable: req.body.precio_negociable,
+				local: req.body.local,
+				fecha_modificacion: DateNow(),
+				tipo_moneda: req.body.tipo_moneda
 			 });
 		}
 		articulo.save(function (err) {
@@ -206,9 +240,9 @@ exports.agregar = function(req, res){
 //Muestra el articulo
 exports.mostrarArticulo = function(req, res){
 	if (req.session.auth != undefined){
-		ArticuloModel.findById(req.params.id_articulo, function (err, articulo){
+		ArticuloModel.findById(req.params.id_articulo).populate('_creador').execFind( function (err, articulo){
 			if (articulo != undefined){
-				res.render('articulos/mostrarArticulo', { title: 'Yo Soy Ventas', articulo: articulo });
+				res.render('articulos/mostrarArticulo', { title: 'Yo Soy Ventas', articulo1: articulo });
 			}else{
 				res.redirect('/principal');
 			}
@@ -244,6 +278,9 @@ exports.guardaCambiosArticulo = function(req, res){
 				descripcion: req.body.descripcionField,
 				descripcion_corta: req.body.descripcion_corta,
 				precio: req.body.precio,
+				precio_negociable: req.body.precio_negociable,
+				local: req.body.local,				
+				fecha_modificacion: DateNow(),
 				tipo_moneda: req.body.tipo_moneda,
 				imagenes: imgs.imagenes
 			 };
@@ -253,6 +290,9 @@ exports.guardaCambiosArticulo = function(req, res){
 				descripcion: req.body.descripcionField,
 				descripcion_corta: req.body.descripcion_corta,
 				precio: req.body.precio,
+				precio_negociable: req.body.precio_negociable,
+				local: req.body.local,
+				fecha_modificacion: DateNow(),
 				tipo_moneda: req.body.tipo_moneda,
 			 };
 		}
@@ -274,7 +314,7 @@ exports.guardaCambiosArticulo = function(req, res){
 //Muestra mis articulos
 exports.misArticulos = function(req, res){
 	if (req.session.auth != undefined){
-    ArticuloModel.find({_creador: req.session.auth.userId }, function(err,articulos){
+    ArticuloModel.find({_creador: req.session.auth.userId }).sort({fecha_modificacion: -1}).execFind( function(err,articulos){
         res.render('articulos/misArticulos', { title: 'Yo Soy Ventas', articulos: articulos });
     });
 	}

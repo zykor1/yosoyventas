@@ -23,13 +23,13 @@ var l16 = '</div>'
 	$.each(listaBotones, function(index, value){
 		var onclick = '';
 		var data_dismiss = '';
-			if (listaBotones[0].onclick == undefined){
-				onclick = 'onClick='+ botones[0].onclick;
+			if (listaBotones[index].onclick != undefined){
+				onclick = 'onClick='+ listaBotones[index].onclick;
 			}
-			if (listaBotones[0].boton_cerrar == true){
+			if (listaBotones[index].boton_cerrar == true){
 				data_dismiss = 'data-dismiss="modal"';
 			}
-		l12 += '<button type="button" '+onclick+' '+data_dismiss+' class="btn btn-'+listaBotones[0].clase_bootstrap+'">'+listaBotones[0].texto_boton+'</button>';
+		l12 += '<button type="button" '+onclick+' '+data_dismiss+' class="btn btn-'+listaBotones[index].clase_bootstrap+'">'+listaBotones[index].texto_boton+'</button>';
 	});
 	return l1+l2+l3+l4+l5+l6+l7+l8+l9+l10+l11+l12+l13+l14+l15+l16;
 }
@@ -39,7 +39,7 @@ var l16 = '</div>'
 
 function mandaEliminar(id_articulo, from){
 	$('#modalEliminaArticulo').on('show.bs.modal', function () {
-	 	$("#botonModalEliminar").attr( "onClick", 'eliminaArticulo(\''+ id_articulo +'\',\''+from+'\')');
+	 	$("#botonModalEliminarArticulo").attr( "onClick", 'eliminaArticulo(\''+ id_articulo +'\',\''+from+'\')');
 	})
 }
 
