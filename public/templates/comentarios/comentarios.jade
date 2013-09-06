@@ -21,6 +21,8 @@ div.modal.fade#modalComentarArticulo(tabindex="-1", role="dialog", aria-labelled
 				button#botonModalComentarArticulo.btn.btn-primary(type="button", onClick='enviaComentario()') Enviar
 div.row
 	div.container
-		h3 Comentarios
+		h3 Comentarios 
+			a.btn.btn-primary.btn-lg(data-placement="bottom",  data-toggle="modal", href="#modalComentarArticulo", rel="tooltip", title="Comenta este articulo")
+				span.glyphicon.glyphicon-comment.pull-right 
 		div#mostrarComentarios
 		

@@ -14,7 +14,7 @@ block index
 				|-
 				a.btn.btn-success(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Ir a vender",href="/vender") 
 					span.glyphicon.glyphicon-usd
-				|-
+				|---|---
 				if everyauth.userId == articulo._creador
 					- var titulo = articulo.titulo.replace(/ /g,"_");
 					a.btn.btn-warning(data-placement="bottom", rel="tooltip", data-toggle="tooltip", title="Editar articulo", href="/edita/#{articulo.id}/#{titulo}")

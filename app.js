@@ -36,8 +36,8 @@ everyauth.everymodule
 });
 
 everyauth.facebook
-    .appId('490289871056517')
-    .appSecret('fdab8b77b54df41dd4f955b24e101c93')
+    .appId('555848331151668')
+    .appSecret('a4d19d6bba6811ae753c0800a788ba6b')
     .scope('email,user_location,user_photos,publish_actions,user_about_me,user_groups,friends_groups')
     .handleAuthCallbackError( function (req, res) {
         res.send('Error occured');
